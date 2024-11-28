@@ -1,17 +1,19 @@
 {
-  "name": "DLS web utis",
+  "name": "test fastify",
   "build": {
     // Sets the run context to one level up instead of the .devcontainer folder.
     "context": "..",
     // Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
     "dockerfile": "./Dockerfile"
   },
+  "remoteEnv": {
+    // Allow X11 apps to run inside the container
+    "DISPLAY": "${localEnv:DISPLAY}"
+  },
   // Features to add to the dev container. More info: https://containers.dev/features.
   // "features": {},
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [3000],
-  // // Uncomment the next line to run commands after the container is created.
-  // // "postCreateCommand": "cat /etc/os-release",
   "initializeCommand": "bash -c 'for i in $HOME/.inputrc; do [ -f $i ] || touch $i; done'",
   "runArgs": [
     "--net=host",
@@ -36,6 +38,12 @@
       ]
     }
   },
+    "features": {
+        // Some default things like git config
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "upgradePackages": false
+        }
+    },
   // make the workspace folder the same inside and outside of the container
   "workspaceMount": "source=${localWorkspaceFolder},target=${localWorkspaceFolder},type=bind",
   "workspaceFolder": "${localWorkspaceFolder}"
